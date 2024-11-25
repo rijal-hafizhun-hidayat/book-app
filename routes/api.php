@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('book')->group(function () {
         Route::post('/', [ApiBookController::class, 'store'])->name('api.book.store');
         Route::delete('/{id}', [ApiBookController::class, 'destroy'])->name('api.book.destroy');
+        Route::post('/{id}/update', [ApiBookController::class, 'update'])->name('api.book.update');
     });
 });

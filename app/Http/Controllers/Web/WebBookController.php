@@ -32,4 +32,14 @@ class WebBookController extends Controller
             'categories' => $this->categoryService->getAll()
         ]);
     }
+
+    public function show($id)
+    {
+        $book = $this->bookService->findBookByBookId($id);
+        //dd($book);
+        return view('book.show', [
+            'book' => $book,
+            'categories' => $this->categoryService->getAll()
+        ]);
+    }
 }

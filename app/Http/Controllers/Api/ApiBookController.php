@@ -63,4 +63,36 @@ class ApiBookController extends Controller
             'data' => $book
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => ['required'],
+            'author' => ['required'],
+            'background' => ['required'],
+            'category' => ['nullable'],
+            'cover' => ['nullable', 'file', 'mimes:jpg,png,jpeg', 'max:1024']
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $book = $this->bookService->findBookByBookId($id);
+            $bookUpdated = $this->bookService->updateBookWithBookCategoryByBookId($request, $book);
+
+            if ($request->category) {
+                $this->bookCategoryService->destroyBookCategoryByBookId($book->id);
+                $this->bookCategoryService->storeBookCategory($request, $book);
+            }
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage());
+        }
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => 'success update book',
+            'data' => $bookUpdated
+        ]);
+    }
 }

@@ -9,4 +9,5 @@ interface BookCategoryService extends BaseService
 
     // Write something awesome :)
     public function storeBookCategory($request, $book);
+    public function destroyBookCategoryByBookId($bookId);
 }

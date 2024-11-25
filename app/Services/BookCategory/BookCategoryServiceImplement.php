@@ -26,5 +26,10 @@ class BookCategoryServiceImplement extends ServiceApi implements BookCategorySer
     }
   }
 
+  public function destroyBookCategoryByBookId($bookId)
+  {
+    return $this->mainRepository->where('book_id', $bookId)->delete();
+  }
+
   // Define your custom methods :)
 }

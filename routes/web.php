@@ -15,4 +15,5 @@ Route::prefix('category')->group(function () {
 Route::prefix('book')->group(function () {
     Route::get('/', [WebBookController::class, 'index'])->name('book.index');
     Route::get('/create', [WebBookController::class, 'create'])->name('book.create');
+    Route::get('/{id}', [WebBookController::class, 'show'])->name('book.show');
 });

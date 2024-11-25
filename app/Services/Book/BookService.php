@@ -10,4 +10,5 @@ interface BookService extends BaseService
     public function storeBookWithBookCategory($request);
     public function findBookByBookId($id);
     public function destroyBookWithBookId($book);
+    public function updateBookWithBookCategoryByBookId($request, $book);
 }

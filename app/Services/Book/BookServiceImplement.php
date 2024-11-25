@@ -35,7 +35,7 @@ class BookServiceImplement extends ServiceApi implements BookService
 
   public function findBookByBookId($id)
   {
-    return $this->mainRepository->find($id);
+    return $this->mainRepository->with('bookCategory.category')->find($id);
   }
 
   public function destroyBookWithBookId($book)
@@ -45,6 +45,23 @@ class BookServiceImplement extends ServiceApi implements BookService
     }
 
     return $book->delete();
+  }
+
+  public function updateBookWithBookCategoryByBookId($request, $book)
+  {
+    $book->title = $request->title;
+    $book->author = $request->author;
+    $book->background = $request->background;
+
+    if ($request->file('cover')) {
+      if (Storage::disk('public')->exists($book->cover)) {
+        Storage::disk('public')->delete($book->cover);
+      }
+      $filePath = Storage::disk('public')->putFile('cover', $request->file('cover'));
+      $book->cover = $filePath;
+    }
+
+    return $book->save();
   }
 
   // Define your custom methods :)

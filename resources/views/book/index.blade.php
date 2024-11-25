@@ -39,7 +39,8 @@
                                 <td>
                                     <div class="d-flex justify-content-start">
                                         <div>
-                                            <button type="button" class="btn btn-warning">Update</button>
+                                            <a href="{{ route('book.show', ['id' => $book->id]) }}"
+                                                class="btn btn-warning">Update</a>
                                         </div>
                                         <div>
                                             <button type="button" class="btn btn-danger destroyBook"
