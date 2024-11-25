@@ -46,6 +46,7 @@
                     $('#success').text(response.message);
                     $('#success').removeAttr('hidden');
                     $('#buttonSubmit').removeAttr('disabled');
+                    sessionStorage.setItem("token", response.token);
                 },
                 error: function(error) {
                     console.log(error)

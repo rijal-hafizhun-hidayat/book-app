@@ -1,12 +1,19 @@
 <?php
 
-use App\Http\Controllers\Web\WebBookCategoryController;
+use App\Http\Controllers\Web\WebCategoryController;
+use App\Http\Controllers\Web\WebBookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::prefix('book-category')->group(function () {
-    Route::get('/', [WebBookCategoryController::class, 'index'])->name('book-category.index');
+Route::prefix('category')->group(function () {
+    Route::get('/', [WebCategoryController::class, 'index'])->name('book-category.index');
+});
+
+Route::prefix('book')->group(function () {
+    Route::get('/', [WebBookController::class, 'index'])->name('book.index');
+    Route::get('/create', [WebBookController::class, 'create'])->name('book.create');
+    Route::get('/{id}', [WebBookController::class, 'show'])->name('book.show');
 });
