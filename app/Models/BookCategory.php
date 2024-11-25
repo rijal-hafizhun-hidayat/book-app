@@ -8,4 +8,9 @@ class BookCategory extends Model
 {
     protected $table = 'book_category';
     protected $guarded = ['id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
 }

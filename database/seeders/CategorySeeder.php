@@ -7,14 +7,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BookCategorySeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('book_category')->insert([
+        DB::table('category')->insert([
             [
                 'id' => 1,
                 'name' => 'fantasy',
