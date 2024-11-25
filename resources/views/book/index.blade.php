@@ -17,21 +17,68 @@
                             <th scope="col">Author</th>
                             <th scope="col">Background</th>
                             <th scope="col">Book Category</th>
+                            <th scope="col">Cover</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                        </tr>
+                        @foreach ($books as $book)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $book->title }}</td>
+                                <td>{{ $book->author }}</td>
+                                <td>{{ $book->background }}</td>
+                                <td>
+                                    @foreach ($book->bookCategory as $bookCategory)
+                                        <span class="badge text-bg-secondary">{{ $bookCategory->category->name }}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <img class="img-thumbnail" src="{{ Storage::url($book->cover) }}" alt="">
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-start">
+                                        <div>
+                                            <button type="button" class="btn btn-warning">Update</button>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-danger destroyBook"
+                                                id="{{ $book->id }}">Hapus</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 @endsection
+@push('custom-script')
+    <script>
+        $('.destroyBook').on('click', function() {
+            let bookId = parseInt(this.id)
+            $.ajax({
+                type: "delete",
+                url: `/api/book/${bookId}`,
+                headers: {
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: "success",
+                        text: `${response.message}`,
+                        icon: "success"
+                    });
+
+                    window.location.href = "{{ route('book.index') }}";
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+        });
+    </script>
+@endpush

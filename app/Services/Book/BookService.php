@@ -8,4 +8,6 @@ interface BookService extends BaseService
 {
     public function getBookWithCategory();
     public function storeBookWithBookCategory($request);
+    public function findBookByBookId($id);
+    public function destroyBookWithBookId($book);
 }

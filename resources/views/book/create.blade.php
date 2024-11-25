@@ -78,6 +78,11 @@
                 },
                 success: function(response) {
                     console.log(response)
+                    Swal.fire({
+                        title: "success",
+                        text: `${response.message}`,
+                        icon: "success"
+                    });
                     window.location.href = "{{ route('book.index') }}";
                 },
                 error: function(error) {

@@ -44,4 +44,23 @@ class ApiBookController extends Controller
             'data' => $book
         ]);
     }
+
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            $book = $this->bookService->findBookByBookId($id);
+            $this->bookService->destroyBookWithBookId($book);
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage());
+        }
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => 'success destroy book',
+            'data' => $book
+        ]);
+    }
 }

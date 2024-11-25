@@ -9,14 +9,13 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::prefix('api')->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('login', [ApiAuthController::class, 'login'])->name('api.auth.login');
-    });
+Route::prefix('auth')->group(function () {
+    Route::post('login', [ApiAuthController::class, 'login'])->name('api.auth.login');
+});
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::prefix('book')->group(function () {
-            Route::post('/', [ApiBookController::class, 'store'])->name('api.book.store');
-        });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('book')->group(function () {
+        Route::post('/', [ApiBookController::class, 'store'])->name('api.book.store');
+        Route::delete('/{id}', [ApiBookController::class, 'destroy'])->name('api.book.destroy');
     });
 });

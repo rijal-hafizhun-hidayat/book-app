@@ -33,5 +33,19 @@ class BookServiceImplement extends ServiceApi implements BookService
     return $book;
   }
 
+  public function findBookByBookId($id)
+  {
+    return $this->mainRepository->find($id);
+  }
+
+  public function destroyBookWithBookId($book)
+  {
+    if (Storage::disk('public')->exists($book->cover)) {
+      Storage::disk('public')->delete($book->cover);
+    }
+
+    return $book->delete();
+  }
+
   // Define your custom methods :)
 }
