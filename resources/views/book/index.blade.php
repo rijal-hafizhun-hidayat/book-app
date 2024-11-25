@@ -27,7 +27,11 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->author }}</td>
+                                <td>
+                                    @foreach ($book->bookWriter as $writer)
+                                        <span class="badge text-bg-secondary">{{ $writer->user->name }}</span>
+                                    @endforeach
+                                </td>
                                 <td>{{ $book->background }}</td>
                                 <td>
                                     @foreach ($book->bookCategory as $bookCategory)
