@@ -13,4 +13,9 @@ class Book extends Model
     {
         return $this->hasMany(BookCategory::class, 'book_id', 'id');
     }
+
+    public function bookPublisher()
+    {
+        return $this->hasOne(BookPublisher::class, 'book_id', 'id');
+    }
 }

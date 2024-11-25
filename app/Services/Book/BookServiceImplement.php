@@ -15,9 +15,9 @@ class BookServiceImplement extends ServiceApi implements BookService
     $this->mainRepository = $mainRepository;
   }
 
-  public function getBookWithCategory()
+  public function getBookWithCategoryAndPublisher()
   {
-    return $this->mainRepository->with('bookCategory.category')->get();
+    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher'])->get();
   }
 
   public function storeBookWithBookCategory($request)
@@ -35,7 +35,7 @@ class BookServiceImplement extends ServiceApi implements BookService
 
   public function findBookByBookId($id)
   {
-    return $this->mainRepository->with('bookCategory.category')->find($id);
+    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher'])->find($id);
   }
 
   public function destroyBookWithBookId($book)

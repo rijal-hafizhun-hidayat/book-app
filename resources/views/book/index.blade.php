@@ -17,6 +17,7 @@
                             <th scope="col">Author</th>
                             <th scope="col">Background</th>
                             <th scope="col">Book Category</th>
+                            <th scope="col">Book Publisher</th>
                             <th scope="col">Cover</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -32,6 +33,9 @@
                                     @foreach ($book->bookCategory as $bookCategory)
                                         <span class="badge text-bg-secondary">{{ $bookCategory->category->name }}</span>
                                     @endforeach
+                                </td>
+                                <td>
+                                    <span class="badge text-bg-secondary">{{ $book->bookPublisher->publisher->name }}</span>
                                 </td>
                                 <td>
                                     <img class="img-thumbnail" src="{{ Storage::url($book->cover) }}" alt="">

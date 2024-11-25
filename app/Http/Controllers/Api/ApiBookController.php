@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\Book\BookService;
 use App\Services\BookCategory\BookCategoryService;
+use App\Services\BookPublisher\BookPublisherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,10 +13,12 @@ class ApiBookController extends Controller
 {
     protected $bookService;
     protected $bookCategoryService;
-    public function __construct(BookService $bookService, BookCategoryService $bookCategoryService)
+    protected $bookPublisherService;
+    public function __construct(BookService $bookService, BookCategoryService $bookCategoryService, BookPublisherService $bookPublisherService)
     {
         $this->bookService = $bookService;
         $this->bookCategoryService = $bookCategoryService;
+        $this->bookPublisherService = $bookPublisherService;
     }
 
     public function store(Request $request)
@@ -25,6 +28,7 @@ class ApiBookController extends Controller
             'author' => ['required'],
             'background' => ['required'],
             'category' => ['required'],
+            'publisher' => ['required'],
             'cover' => ['required', 'file', 'mimes:jpg,png,jpeg', 'max:1024']
         ]);
 
@@ -32,6 +36,7 @@ class ApiBookController extends Controller
             DB::beginTransaction();
             $book = $this->bookService->storeBookWithBookCategory($request);
             $this->bookCategoryService->storeBookCategory($request, $book);
+            $this->bookPublisherService->storeBookPublisher($request, $book);
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -71,6 +76,7 @@ class ApiBookController extends Controller
             'author' => ['required'],
             'background' => ['required'],
             'category' => ['nullable'],
+            'publisher' => ['required'],
             'cover' => ['nullable', 'file', 'mimes:jpg,png,jpeg', 'max:1024']
         ]);
 
@@ -82,6 +88,10 @@ class ApiBookController extends Controller
             if ($request->category) {
                 $this->bookCategoryService->destroyBookCategoryByBookId($book->id);
                 $this->bookCategoryService->storeBookCategory($request, $book);
+            }
+            if ($request->publisher) {
+                $this->bookPublisherService->destroyBookPublisherByBookId($book->id);
+                $this->bookPublisherService->storeBookPublisher($request, $book);
             }
             DB::commit();
         } catch (\Throwable $e) {

@@ -29,6 +29,16 @@
                         <div class="text-danger" id="errorBackground"></div>
                     </div>
                     <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Publisher</label>
+                        <select class="form-select" name="publisher" id="inputPublisher"
+                            aria-label="Default select example">
+                            @foreach ($publishers as $publisher)
+                                <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-danger" id="errorPublisher"></div>
+                    </div>
+                    <div class="mb-3">
                         <label for="inputCategory" class="form-label">Book Category</label>
                         <select class="js-example-basic-multiple form-select" name="category[]" multiple="multiple">
                             @foreach ($categories as $category)
@@ -63,6 +73,7 @@
             $('#errorBackground').text('');
             $('#errorCategory').text('');
             $('#errorCover').text('');
+            $('#errorPublisher').text('');
 
             e.preventDefault();
             const formData = new FormData(this)
@@ -102,6 +113,9 @@
                         }
                         if (err.errors.cover) {
                             $('#errorCover').text(err.errors.cover[0]);
+                        }
+                        if (err.errors.publisher) {
+                            $('#errorPublisher').text(err.errors.publisher[0]);
                         }
                     } else {
                         const err = error.responseJSON

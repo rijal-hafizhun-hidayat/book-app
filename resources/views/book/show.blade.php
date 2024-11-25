@@ -4,10 +4,10 @@
         <div class="alert alert-danger" hidden id="alert" role="alert">
 
         </div>
-        <h1 class="my-4">Create Book</h1>
+        <h1 class="my-4">Update Book</h1>
         <div class="card mb-4">
             <div class="card-header">
-                Create Data Book
+                Update Data Book
             </div>
             <div class="card-body">
                 <form id="submitForm">
@@ -39,6 +39,17 @@
                         <div class="text-danger" id="errorCategory"></div>
                     </div>
                     <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Publisher</label>
+                        <select class="form-select" name="publisher" id="inputPublisher"
+                            aria-label="Default select example">
+                            @foreach ($publishers as $publisher)
+                                <option @selected($book->bookPublisher->publisher->id === $publisher->id) value="{{ $publisher->id }}">{{ $publisher->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="text-danger" id="errorPublisher"></div>
+                    </div>
+                    <div class="mb-3">
                         <label for="formFile" class="form-label">Upload Book Cover</label>
                         <input class="form-control" type="file" name="cover" id="uploadCover">
                         <div class="text-danger" id="errorCover"></div>
@@ -64,6 +75,7 @@
             $('#errorBackground').text('');
             $('#errorCategory').text('');
             $('#errorCover').text('');
+            $('#errorPublisher').text('');
 
             e.preventDefault();
             const formData = new FormData(this)
@@ -79,7 +91,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log(response)
                     Swal.fire({
                         title: "success",
                         text: `${response.message}`,
@@ -104,6 +115,9 @@
                         }
                         if (err.errors.cover) {
                             $('#errorCover').text(err.errors.cover[0]);
+                        }
+                        if (err.errors.publisher) {
+                            $('#errorPublisher').text(err.errors.publisher[0]);
                         }
                     } else {
                         const err = error.responseJSON
