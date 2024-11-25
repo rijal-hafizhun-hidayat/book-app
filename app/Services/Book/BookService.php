@@ -6,7 +6,7 @@ use LaravelEasyRepository\BaseService;
 
 interface BookService extends BaseService
 {
-    public function getBookWithCategoryAndPublisher();
+    public function getBookWithCategoryAndPublisherAndWriter();
     public function storeBookWithBookCategory($request);
     public function findBookByBookId($id);
     public function destroyBookWithBookId($book);
