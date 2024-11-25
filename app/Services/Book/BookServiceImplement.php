@@ -15,9 +15,9 @@ class BookServiceImplement extends ServiceApi implements BookService
     $this->mainRepository = $mainRepository;
   }
 
-  public function getBookWithCategoryAndPublisher()
+  public function getBookWithCategoryAndPublisherAndWriter()
   {
-    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher'])->get();
+    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher', 'bookWriter.user'])->get();
   }
 
   public function storeBookWithBookCategory($request)
@@ -25,7 +25,6 @@ class BookServiceImplement extends ServiceApi implements BookService
     $filePath = Storage::disk('public')->putFile('cover', $request->file('cover'));
     $book = $this->mainRepository->create([
       'title' => $request->title,
-      'author' => $request->author,
       'background' => $request->background,
       'cover' => $filePath
     ]);
@@ -50,7 +49,6 @@ class BookServiceImplement extends ServiceApi implements BookService
   public function updateBookWithBookCategoryByBookId($request, $book)
   {
     $book->title = $request->title;
-    $book->author = $request->author;
     $book->background = $request->background;
 
     if ($request->file('cover')) {

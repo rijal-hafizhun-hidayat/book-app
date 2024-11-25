@@ -19,8 +19,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Author</label>
-                        <input type="text" class="form-control" name="author" id="inputAuthor"
-                            value="{{ $book->author }}" aria-describedby="emailHelp">
+                        <select class="js-example-basic-multiple form-select" name="author[]" id="author"
+                            multiple="multiple">
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
                         <div class="text-danger" id="errorAuthor"></div>
                     </div>
                     <div class="mb-3">
