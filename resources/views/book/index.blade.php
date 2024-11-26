@@ -2,11 +2,62 @@
 @section('content')
     <div class="container-fluid px-4">
         <h1 class="my-4">Book</h1>
+        @if ($errors->has('alert'))
+            <div class="alert alert-danger" id="alert" role="alert">
+                {{ $errors->first('alert') }}
+            </div>
+        @endif
+        <form method="get" action="{{ route('book.index') }}">
+            <div class="container mb-4">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" value="{{ request()->title }}"
+                            id="inputTitle" aria-describedby="emailHelp">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Author</label>
+                        <select class="js-example-basic-multiple form-select" name="author[]" id="author"
+                            multiple="multiple">
+                            @foreach ($users as $user)
+                                <option @if (request()->filled('author') && in_array($user->id, request()->author)) selected="selected" @endif
+                                    value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Book Category</label>
+                        <select class="js-example-basic-multiple form-select" name="category[]" id="category"
+                            multiple="multiple">
+                            @foreach ($categories as $category)
+                                <option @if (request()->filled('category') && in_array($category->id, request()->category)) selected="selected" @endif
+                                    value="{{ $category->id }}">
+                                    {{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Publisher</label>
+                        <select class="js-example-basic-multiple form-select" name="publisher" id="publisher">
+                            @foreach ($publishers as $publisher)
+                                <option @selected(request()->filled('publisher') && $publisher->id == request()->publisher) value="{{ $publisher->id }}">
+                                    {{ $publisher->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary mt-4">search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 Data Book
-                <a href="{{ route('book.create') }}">Add Book</a>
+                @if (Auth::user()->UserRole->role_id === 1)
+                    <a href="{{ route('book.create') }}">Add Book</a>
+                @endif
             </div>
             <div class="card-body">
                 <table class="table">
@@ -19,7 +70,10 @@
                             <th scope="col">Book Category</th>
                             <th scope="col">Book Publisher</th>
                             <th scope="col">Cover</th>
-                            <th scope="col">Action</th>
+                            @if (Auth::user()->UserRole->role_id === 1)
+                                <th scope="col">Action</th>
+                            @endif
+
                         </tr>
                     </thead>
                     <tbody>
@@ -39,23 +93,27 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <span class="badge text-bg-secondary">{{ $book->bookPublisher->publisher->name }}</span>
+                                    <span
+                                        class="badge text-bg-secondary">{{ $book->bookPublisher->publisher->name }}</span>
                                 </td>
                                 <td>
                                     <img class="img-thumbnail" src="{{ Storage::url($book->cover) }}" alt="">
                                 </td>
-                                <td>
-                                    <div class="d-flex justify-content-start">
-                                        <div>
-                                            <a href="{{ route('book.show', ['id' => $book->id]) }}"
-                                                class="btn btn-warning">Update</a>
+                                @if (Auth::user()->UserRole->role_id === 1)
+                                    <td>
+                                        <div class="d-flex justify-content-start">
+                                            <div>
+                                                <a href="{{ route('book.show', ['id' => $book->id]) }}"
+                                                    class="btn btn-warning">Update</a>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-danger destroyBook"
+                                                    id="{{ $book->id }}">Hapus</button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button type="button" class="btn btn-danger destroyBook"
-                                                id="{{ $book->id }}">Hapus</button>
-                                        </div>
-                                    </div>
-                                </td>
+                                    </td>
+                                @endif
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -66,6 +124,9 @@
 @endsection
 @push('custom-script')
     <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
         $('.destroyBook').on('click', function() {
             let bookId = parseInt(this.id)
             $.ajax({

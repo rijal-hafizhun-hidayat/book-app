@@ -1,27 +1,36 @@
 @extends('layouts.guest')
 @section('content')
-    <div class="alert alert-danger" hidden id="alert" role="alert">
-
-    </div>
-    <div class="alert alert-success" hidden id="success" role="alert">
-    </div>
-    <form id="submitForm">
+    @if ($errors->has('alert'))
+        <div class="alert alert-danger" id="alert" role="alert">
+            {{ $errors->first('alert') }}
+        </div>
+    @endif
+    <form id="submitForm" method="post" action="{{ route('login') }}">
+        @csrf
         <div class="form-floating mb-3">
-            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+            <input class="form-control" id="inputEmail" type="email" name="email" placeholder="name@example.com" />
             <label for="inputEmail">Email address</label>
-            <div class="text-danger" id="errorEmail"></div>
+            @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email') }}
+                </div>
+            @endif
         </div>
         <div class="form-floating mb-3">
-            <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+            <input class="form-control" id="inputPassword" type="password" name="password" placeholder="Password" />
             <label for="inputPassword">Password</label>
-            <div class="text-danger" id="errorPassword"></div>
+            @if ($errors->has('password'))
+                <div class="text-danger">
+                    {{ $errors->first('password') }}
+                </div>
+            @endif
         </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" id="buttonSubmit" class="btn btn-primary">login</button>
         </div>
     </form>
 @endsection
-@push('custom-script')
+{{-- @push('custom-script')
     <script>
         $('#submitForm').on('submit', function(e) {
             e.preventDefault();
@@ -47,6 +56,8 @@
                     $('#success').removeAttr('hidden');
                     $('#buttonSubmit').removeAttr('disabled');
                     sessionStorage.setItem("token", response.token);
+
+                    window.location.href = "{{ route('book.index') }}"
                 },
                 error: function(error) {
                     console.log(error)
@@ -69,4 +80,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}

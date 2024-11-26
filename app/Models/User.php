@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $with = ['UserRole'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,5 +52,10 @@ class User extends Authenticatable
     public function UserRole()
     {
         return $this->hasOne(UserRole::class, 'user_id', 'id');
+    }
+
+    public function bookWriter()
+    {
+        return $this->hasMany(BookWriter::class, 'user_id', 'id');
     }
 }

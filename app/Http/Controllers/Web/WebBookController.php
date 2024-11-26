@@ -9,6 +9,7 @@ use App\Services\Category\CategoryService;
 use App\Services\Publisher\PublisherService;
 use App\Services\User\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WebBookController extends Controller
 {
@@ -27,9 +28,11 @@ class WebBookController extends Controller
 
     public function index()
     {
-        //dd($this->bookService->getBookWithCategoryAndPublisherAndWriter());
         return view('book.index', [
-            'books' => $this->bookService->getBookWithCategoryAndPublisherAndWriter()
+            'books' => $this->bookService->getBookWithCategoryAndPublisherAndWriter(),
+            'users' => $this->userService->getUserByRoleWriter(),
+            'categories' => $this->categoryService->getAll(),
+            'publishers' => $this->publisherService->getAll()
         ]);
     }
 
