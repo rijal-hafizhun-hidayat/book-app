@@ -17,7 +17,30 @@ class BookServiceImplement extends ServiceApi implements BookService
 
   public function getBookWithCategoryAndPublisherAndWriter()
   {
-    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher', 'bookWriter.user'])->get();
+    $queryBook =  $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher', 'bookWriter.user']);
+    if (request()->filled('author')) {
+      $queryBook->whereHas('bookWriter', function ($query) {
+        $query->whereIn('user_id', request()->author);
+      });
+    }
+
+    if (request()->filled('category')) {
+      $queryBook->whereHas('bookCategory', function ($query) {
+        $query->whereIn('category_id', request()->category);
+      });
+    }
+
+    if (request()->filled('publisher')) {
+      $queryBook->whereHas('bookPublisher', function ($query) {
+        $query->where('publisher_id', request()->publisher);
+      });
+    }
+
+    if (request()->filled('title')) {
+      $queryBook->where('title', 'like', '%' . request()->title . '%');
+    }
+
+    return $queryBook->get();
   }
 
   public function storeBookWithBookCategory($request)

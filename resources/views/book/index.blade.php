@@ -2,6 +2,50 @@
 @section('content')
     <div class="container-fluid px-4">
         <h1 class="my-4">Book</h1>
+        <form method="get" action="{{ route('book.index') }}">
+            <div class="container mb-4">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" value="{{ request()->title }}"
+                            id="inputTitle" aria-describedby="emailHelp">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Author</label>
+                        <select class="js-example-basic-multiple form-select" name="author[]" id="author"
+                            multiple="multiple">
+                            @foreach ($users as $user)
+                                <option @if (request()->filled('author') && in_array($user->id, request()->author)) selected="selected" @endif
+                                    value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Book Category</label>
+                        <select class="js-example-basic-multiple form-select" name="category[]" id="category"
+                            multiple="multiple">
+                            @foreach ($categories as $category)
+                                <option @if (request()->filled('category') && in_array($category->id, request()->category)) selected="selected" @endif
+                                    value="{{ $category->id }}">
+                                    {{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Publisher</label>
+                        <select class="js-example-basic-multiple form-select" name="publisher" id="publisher">
+                            @foreach ($publishers as $publisher)
+                                <option @selected(request()->filled('publisher') && $publisher->id == request()->publisher) value="{{ $publisher->id }}">
+                                    {{ $publisher->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary mt-4">search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
@@ -39,7 +83,8 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <span class="badge text-bg-secondary">{{ $book->bookPublisher->publisher->name }}</span>
+                                    <span
+                                        class="badge text-bg-secondary">{{ $book->bookPublisher->publisher->name }}</span>
                                 </td>
                                 <td>
                                     <img class="img-thumbnail" src="{{ Storage::url($book->cover) }}" alt="">
@@ -66,6 +111,9 @@
 @endsection
 @push('custom-script')
     <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
         $('.destroyBook').on('click', function() {
             let bookId = parseInt(this.id)
             $.ajax({
