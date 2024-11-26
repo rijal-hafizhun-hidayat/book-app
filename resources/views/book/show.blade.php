@@ -22,7 +22,8 @@
                         <select class="js-example-basic-multiple form-select" name="author[]" id="author"
                             multiple="multiple">
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option @if (in_array($user->id, $book->bookWriter->pluck('user_id')->toArray())) selected="selected" @endif
+                                    value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                         <div class="text-danger" id="errorAuthor"></div>
@@ -37,7 +38,8 @@
                         <select class="js-example-basic-multiple form-select" name="category[]" id="category"
                             multiple="multiple">
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option @if (in_array($category->id, $book->bookCategory->pluck('category_id')->toArray())) selected="selected" @endif
+                                    value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                         <div class="text-danger" id="errorCategory"></div>
@@ -91,7 +93,6 @@
                 contentType: false,
                 processData: false,
                 headers: {
-                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
