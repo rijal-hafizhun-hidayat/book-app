@@ -63,7 +63,10 @@
                             <th scope="col">Book Category</th>
                             <th scope="col">Book Publisher</th>
                             <th scope="col">Cover</th>
-                            <th scope="col">Action</th>
+                            @if (Auth::user()->UserRole->role_id === 1)
+                                <th scope="col">Action</th>
+                            @endif
+
                         </tr>
                     </thead>
                     <tbody>
@@ -89,18 +92,21 @@
                                 <td>
                                     <img class="img-thumbnail" src="{{ Storage::url($book->cover) }}" alt="">
                                 </td>
-                                <td>
-                                    <div class="d-flex justify-content-start">
-                                        <div>
-                                            <a href="{{ route('book.show', ['id' => $book->id]) }}"
-                                                class="btn btn-warning">Update</a>
+                                @if (Auth::user()->UserRole->role_id === 1)
+                                    <td>
+                                        <div class="d-flex justify-content-start">
+                                            <div>
+                                                <a href="{{ route('book.show', ['id' => $book->id]) }}"
+                                                    class="btn btn-warning">Update</a>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-danger destroyBook"
+                                                    id="{{ $book->id }}">Hapus</button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button type="button" class="btn btn-danger destroyBook"
-                                                id="{{ $book->id }}">Hapus</button>
-                                        </div>
-                                    </div>
-                                </td>
+                                    </td>
+                                @endif
+
                             </tr>
                         @endforeach
                     </tbody>

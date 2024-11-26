@@ -9,6 +9,7 @@ use App\Services\Category\CategoryService;
 use App\Services\Publisher\PublisherService;
 use App\Services\User\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WebBookController extends Controller
 {
