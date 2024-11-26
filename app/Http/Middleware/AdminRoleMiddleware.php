@@ -16,11 +16,8 @@ class AdminRoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('api')->check()) {
-            return response()->json([
-                'statusCode' => 401,
-                'message' => 'role not satisfied',
-            ], 401);
+        if (!Auth::user()->UserRole->role_id != 1) {
+            return redirect()->route('book.index')->withErrors(['alert' => 'role not satisfied']);
         }
         return $next($request);
     }

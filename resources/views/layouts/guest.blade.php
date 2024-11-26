@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Login - SB Admin</title>
+    <title>Book App</title>
     @vite(['resources/css/style.css', 'resources/js/app.js'])
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -26,9 +26,6 @@
                                 <div class="card-body">
                                     @yield('content')
                                 </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -39,7 +36,7 @@
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div class="text-muted">Copyright &copy; Book app 2024</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
