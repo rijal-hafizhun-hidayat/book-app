@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('book-recap')->group(function () {
         Route::get('/', [WebBookRecapController::class, 'index'])->name('book-recap.index');
+        Route::post('/book-recap', [WebBookRecapController::class, 'export'])->name('book-recap.export');
     });
 
     Route::get('logout', [WebAuthController::class, 'logout'])->name('logout');

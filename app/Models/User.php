@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserRole::class, 'user_id', 'id');
     }
+
+    public function bookWriter()
+    {
+        return $this->hasMany(BookWriter::class, 'user_id', 'id');
+    }
 }
