@@ -3,6 +3,7 @@
 namespace App\Services\Book;
 
 use App\Models\Book;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use LaravelEasyRepository\ServiceApi;
 
@@ -17,7 +18,14 @@ class BookServiceImplement extends ServiceApi implements BookService
 
   public function getBookWithCategoryAndPublisherAndWriter()
   {
+    $user = Auth::user();
     $queryBook =  $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher', 'bookWriter.user']);
+    if ($user->UserRole->role_id === 2) {
+      $queryBook->whereHas('bookWriter', function ($query) use ($user) {
+        $query->where('user_id', $user->id);
+      });
+    }
+
     if (request()->filled('author')) {
       $queryBook->whereHas('bookWriter', function ($query) {
         $query->whereIn('user_id', request()->author);
