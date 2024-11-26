@@ -47,6 +47,8 @@
                     $('#success').removeAttr('hidden');
                     $('#buttonSubmit').removeAttr('disabled');
                     sessionStorage.setItem("token", response.token);
+
+                    window.location.href = "{{ route('book.index') }}"
                 },
                 error: function(error) {
                     console.log(error)
