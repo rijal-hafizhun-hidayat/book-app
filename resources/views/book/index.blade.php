@@ -2,6 +2,11 @@
 @section('content')
     <div class="container-fluid px-4">
         <h1 class="my-4">Book</h1>
+        @if ($errors->has('alert'))
+            <div class="alert alert-danger" id="alert" role="alert">
+                {{ $errors->first('alert') }}
+            </div>
+        @endif
         <form method="get" action="{{ route('book.index') }}">
             <div class="container mb-4">
                 <div class="row">
@@ -50,7 +55,9 @@
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 Data Book
-                <a href="{{ route('book.create') }}">Add Book</a>
+                @if (Auth::user()->UserRole->role_id === 1)
+                    <a href="{{ route('book.create') }}">Add Book</a>
+                @endif
             </div>
             <div class="card-body">
                 <table class="table">
