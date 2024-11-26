@@ -65,7 +65,7 @@ class BookServiceImplement extends ServiceApi implements BookService
 
   public function findBookByBookId($id)
   {
-    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher'])->find($id);
+    return $this->mainRepository->with(['bookCategory.category', 'bookPublisher.publisher', 'bookWriter.user'])->find($id);
   }
 
   public function destroyBookWithBookId($book)

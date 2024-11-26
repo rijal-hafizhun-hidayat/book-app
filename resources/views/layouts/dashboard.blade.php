@@ -57,22 +57,6 @@
                                 Book Recap
                             </a>
                         @endif
-
-                        @if (Auth::user()->UserRole->role_id === 1)
-                            <div class="sb-sidenav-menu-heading">Master</div>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                User
-                            </a>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                User Role
-                            </a>
-                            <a class="nav-link" href="#">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Book Category
-                            </a>
-                        @endif
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
