@@ -83,7 +83,7 @@
             const formData = new FormData(this)
             $.ajax({
                 type: "post",
-                url: "{{ route('api.book.store') }}",
+                url: "{{ route('book.store') }}",
                 data: formData,
                 contentType: false,
                 processData: false,

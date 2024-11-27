@@ -88,7 +88,7 @@
             let bookId = parseInt({{ $book->id }})
             $.ajax({
                 type: "post",
-                url: `/api/book/${bookId}/update`,
+                url: `/book/${bookId}/update`,
                 data: formData,
                 contentType: false,
                 processData: false,
