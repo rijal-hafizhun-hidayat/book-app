@@ -19,7 +19,10 @@ Route::post('login', [WebAuthController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function () {
     Route::prefix('book')->group(function () {
         Route::get('/', [WebBookController::class, 'index'])->name('book.index');
+        Route::post('/', [WebBookController::class, 'store'])->name('book.store')->middleware('admin');
         Route::get('/create', [WebBookController::class, 'create'])->name('book.create')->middleware('admin');
+        Route::post('/{id}/update', [WebBookController::class, 'update'])->name('book.update')->middleware('admin');
+        Route::delete('/{id}', [WebBookController::class, 'destroy'])->name('book.destroy')->middleware('admin');
         Route::get('/{id}', [WebBookController::class, 'show'])->name('book.show')->middleware('admin');
     });
 

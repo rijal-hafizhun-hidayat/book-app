@@ -131,7 +131,7 @@
             let bookId = parseInt(this.id)
             $.ajax({
                 type: "delete",
-                url: `/api/book/${bookId}`,
+                url: `/book/${bookId}`,
                 headers: {
                     Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
