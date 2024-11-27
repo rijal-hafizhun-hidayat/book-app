@@ -16,7 +16,8 @@ class AdminRoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()->UserRole->role_id != 1) {
+        //dd(Auth::user());
+        if (Auth::user()->UserRole->role_id != 1) {
             return redirect()->route('book.index')->withErrors(['alert' => 'role not satisfied']);
         }
         return $next($request);

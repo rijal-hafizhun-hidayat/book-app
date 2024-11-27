@@ -27,6 +27,26 @@ class WebAuthController extends Controller
         return back()->withErrors([
             'alert' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+        // $creds = $request->validate([
+        //     'email' => ['required', 'email'],
+        //     'password' => ['required']
+        // ]);
+
+        // $isAuthAttemp = Auth::attempt($creds);
+
+        // if ($isAuthAttemp) {
+        //     $token = $request->user()->createToken($creds['email'])->plainTextToken;
+        //     return response()->json([
+        //         'statusCode' => 200,
+        //         'message' => 'success login',
+        //         'token' => $token
+        //     ], 200);
+        // } else {
+        //     return response()->json([
+        //         'statusCode' => 401,
+        //         'message' => 'email or password not found',
+        //     ], 401);
+        // }
     }
 
     public function logout(Request $request)
